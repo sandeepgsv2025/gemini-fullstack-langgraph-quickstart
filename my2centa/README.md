@@ -4,11 +4,16 @@ A fun web application that calculates the inflation-adjusted value of "two cents
 
 ## Features
 
-- 🎯 Simple, intuitive interface
-- 📊 Historical CPI data from U.S. Bureau of Labor Statistics
-- 💵 Calculates inflation-adjusted values from 1913 to present
-- 🎨 Beautiful, responsive design
-- ⚡ Real-time calculations
+- 🎯 **Modern, Mobile-First Design**: Fully responsive with beautiful gradients and animations
+- 📱 **Touch-Optimized**: Large, accessible touch targets and smooth mobile interactions
+- 🌙 **Dark Mode Support**: Automatically adapts to system color scheme preferences
+- 🎨 **Glassmorphism UI**: Contemporary design with backdrop blur and translucent effects
+- 📊 **Historical CPI Data**: Accurate data from U.S. Bureau of Labor Statistics
+- 💵 **Wide Date Range**: Calculate inflation from 1913 to present (2025)
+- ⚡ **Real-Time Calculations**: Instant results with smooth animations
+- ♿ **Accessible**: WCAG-compliant with proper focus states and keyboard navigation
+- 🎭 **Smooth Animations**: Delightful micro-interactions and transitions
+- 📏 **Responsive Typography**: Fluid text sizing that adapts to any screen size
 
 ## How It Works
 
@@ -110,6 +115,41 @@ Health check endpoint
   "app": "my2centa"
 }
 ```
+
+## Design Highlights
+
+### Modern UI/UX Features
+
+- **Animated Background**: Floating gradient blobs create a dynamic, engaging backdrop
+- **Glassmorphism**: Frosted glass effect with backdrop blur for a modern aesthetic
+- **Smooth Transitions**: All interactions use cubic-bezier easing for natural motion
+- **Micro-interactions**:
+  - Pulsing coin icon animation
+  - Button shimmer effect on hover
+  - Cards that lift on hover
+  - Smooth slide-up animations for results
+  - Shake animation for errors
+- **Responsive Breakpoints**: Optimized layouts for mobile, tablet, landscape, and desktop
+- **Inter Font**: Modern, highly legible typeface from Google Fonts
+- **CSS Variables**: Easy theming with centralized design tokens
+- **Touch-Friendly**: Minimum 56px touch targets on mobile devices
+- **Auto-scroll**: Results automatically scroll into view on mobile
+
+### Color Palette
+
+- **Primary**: Indigo (#6366f1) - Modern and trustworthy
+- **Secondary**: Pink (#ec4899) - Vibrant accent color
+- **Gradients**: Multi-stop gradients for visual depth
+- **Semantic Colors**: Success, danger, and warning states clearly communicated
+
+### Accessibility
+
+- Proper semantic HTML structure
+- Focus states with visible outlines
+- ARIA-compliant form elements
+- Keyboard navigation support
+- Sufficient color contrast ratios
+- Responsive font sizing with clamp()
 
 ## Data Source
 

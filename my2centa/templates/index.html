@@ -2,9 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Calculate the inflation-adjusted value of 2 cents from any year">
+    <meta name="theme-color" content="#6366f1">
     <title>My2Centa - Inflation Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #ec4899;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #1f2937;
+            --gray: #6b7280;
+            --light-gray: #f3f4f6;
+            --white: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --shadow-lg: rgba(0, 0, 0, 0.15);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            --gradient-3: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ec4899 100%);
+            --border-radius: 16px;
+            --border-radius-sm: 12px;
+            --border-radius-lg: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,123 +40,77 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--gradient-3);
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 16px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background blobs */
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.5;
+            animation: float 20s infinite ease-in-out;
+            z-index: 0;
+        }
+
+        body::before {
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, transparent 70%);
+            top: -200px;
+            left: -200px;
+            animation-delay: 0s;
+        }
+
+        body::after {
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, transparent 70%);
+            bottom: -200px;
+            right: -200px;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(50px, -50px) scale(1.1);
+            }
+            66% {
+                transform: translate(-50px, 50px) scale(0.9);
+            }
         }
 
         .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 40px;
-            max-width: 600px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 25px 50px -12px var(--shadow-lg),
+                        0 0 0 1px rgba(255, 255, 255, 0.1);
+            padding: 32px 24px;
+            max-width: 500px;
             width: 100%;
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            color: #667eea;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .header .subtitle {
-            color: #666;
-            font-size: 1.1em;
-        }
-
-        .coin-emoji {
-            font-size: 4em;
-            margin: 20px 0;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            color: #333;
-            font-weight: 600;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-        }
-
-        input[type="number"] {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1.1em;
-            transition: border-color 0.3s;
-        }
-
-        input[type="number"]:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .year-range {
-            color: #888;
-            font-size: 0.9em;
-            margin-top: 5px;
-        }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.2em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .result {
-            margin-top: 30px;
-            padding: 25px;
-            background: linear-gradient(135deg, #f6f8ff 0%, #f0f4ff 100%);
-            border-radius: 15px;
-            border-left: 5px solid #667eea;
-            display: none;
-        }
-
-        .result.show {
-            display: block;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideIn {
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(-10px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -136,163 +118,526 @@
             }
         }
 
-        .result h2 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-        }
-
-        .result-item {
-            margin: 10px 0;
-            padding: 10px;
-            background: white;
-            border-radius: 8px;
-        }
-
-        .result-label {
-            color: #666;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .result-value {
-            color: #333;
-            font-size: 1.3em;
-            font-weight: 700;
-        }
-
-        .result-value.highlight {
-            color: #667eea;
-            font-size: 1.8em;
-        }
-
-        .error {
-            margin-top: 20px;
-            padding: 15px;
-            background: #fee;
-            border-left: 5px solid #f44;
-            border-radius: 10px;
-            color: #c33;
-            display: none;
-        }
-
-        .error.show {
-            display: block;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        .footer {
+        .header {
             text-align: center;
-            margin-top: 30px;
-            color: #888;
-            font-size: 0.9em;
+            margin-bottom: 32px;
+        }
+
+        .coin-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: var(--gradient-2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
+            }
+        }
+
+        .header h1 {
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(32px, 8vw, 48px);
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            color: var(--gray);
+            font-size: clamp(14px, 4vw, 16px);
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: clamp(14px, 3vw, 16px);
+            line-height: 1.5;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid transparent;
+            background: var(--light-gray);
+            border-radius: var(--border-radius);
+            font-size: clamp(16px, 4vw, 18px);
+            font-weight: 600;
+            font-family: inherit;
+            transition: var(--transition);
+            color: var(--dark);
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        input[type="number"]::placeholder {
+            color: var(--gray);
+            opacity: 0.6;
+        }
+
+        /* Remove spinner arrows on Chrome, Safari, Edge, Opera */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Remove spinner arrows on Firefox */
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .year-range {
+            margin-top: 8px;
+            color: var(--gray);
+            font-size: clamp(12px, 3vw, 13px);
+            font-weight: 500;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 18px 24px;
+            background: var(--gradient-2);
+            color: var(--white);
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: clamp(16px, 4vw, 18px);
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.6;
         }
 
         .loading {
             display: none;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 24px;
         }
 
         .loading.show {
             display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(99, 102, 241, 0.1);
+            border-top-color: var(--primary);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px;
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .error {
+            margin-top: 24px;
+            padding: 16px 20px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid var(--danger);
+            border-radius: var(--border-radius);
+            color: var(--danger);
+            font-weight: 600;
+            font-size: 14px;
+            display: none;
+            animation: shake 0.5s ease-out;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .result {
+            margin-top: 32px;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .result-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .result h2 {
+            color: var(--dark);
+            font-size: clamp(20px, 5vw, 24px);
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .result-card {
+            background: var(--light-gray);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 12px;
+            transition: var(--transition);
+        }
+
+        .result-card:hover {
+            background: #e5e7eb;
+            transform: translateY(-2px);
+        }
+
+        .result-label {
+            color: var(--gray);
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .result-value {
+            color: var(--dark);
+            font-size: clamp(20px, 5vw, 24px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .result-value.highlight {
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: clamp(28px, 7vw, 36px);
+        }
+
+        .result-message {
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary);
+        }
+
+        .result-message-text {
+            color: var(--dark);
+            font-size: clamp(14px, 3.5vw, 15px);
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 2px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .footer p {
+            color: var(--gray);
+            font-size: clamp(11px, 3vw, 12px);
+            line-height: 1.6;
+            margin-bottom: 4px;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 640px) {
+            .container {
+                padding: 24px 20px;
+                border-radius: var(--border-radius);
+            }
+
+            .coin-icon {
+                width: 64px;
+                height: 64px;
+                font-size: 32px;
+            }
+
+            .result-card {
+                padding: 16px;
+            }
+
+            .result-message {
+                padding: 16px;
+            }
+        }
+
+        /* Touch target sizes for accessibility */
+        @media (hover: none) and (pointer: coarse) {
+            .btn {
+                padding: 20px 24px;
+                min-height: 56px;
+            }
+
+            input[type="number"] {
+                padding: 18px 20px;
+                min-height: 56px;
+            }
+        }
+
+        /* Landscape mobile adjustments */
+        @media (max-height: 700px) and (orientation: landscape) {
+            body {
+                padding: 12px;
+            }
+
+            .container {
+                padding: 20px;
+                margin: 12px auto;
+            }
+
+            .coin-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 24px;
+                margin-bottom: 12px;
+            }
+
+            .header {
+                margin-bottom: 20px;
+            }
+
+            .form-group {
+                margin-bottom: 16px;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .container {
+                background: rgba(31, 41, 55, 0.95);
+            }
+
+            .header h1,
+            .result h2,
+            .result-value {
+                color: var(--white);
+            }
+
+            label {
+                color: #e5e7eb;
+            }
+
+            input[type="number"] {
+                background: rgba(55, 65, 81, 0.5);
+                color: var(--white);
+            }
+
+            input[type="number"]:focus {
+                background: rgba(55, 65, 81, 0.8);
+            }
+
+            .result-card {
+                background: rgba(55, 65, 81, 0.5);
+            }
+
+            .result-card:hover {
+                background: rgba(55, 65, 81, 0.7);
+            }
+
+            .result-message-text {
+                color: #e5e7eb;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="coin-emoji">💰</div>
+        <header class="header">
+            <div class="coin-icon">💰</div>
             <h1>My2Centa</h1>
-            <p class="subtitle">What's your "two cents" really worth today?</p>
-        </div>
+            <p class="subtitle">Calculate the inflation-adjusted value of your "two cents" from any year</p>
+        </header>
 
         <form id="inflationForm">
             <div class="form-group">
                 <label for="year">What year did someone give you their "2 cents"?</label>
-                <input
-                    type="number"
-                    id="year"
-                    name="year"
-                    min="{{ available_years[0] }}"
-                    max="{{ current_year }}"
-                    placeholder="e.g., 1990"
-                    required
-                />
+                <div class="input-wrapper">
+                    <input
+                        type="number"
+                        id="year"
+                        name="year"
+                        min="{{ available_years[0] }}"
+                        max="{{ current_year }}"
+                        placeholder="e.g., 1990"
+                        inputmode="numeric"
+                        required
+                        autocomplete="off"
+                    />
+                </div>
                 <div class="year-range">
-                    Available years: {{ available_years[0] }} - {{ available_years[-1] }}
+                    Available: {{ available_years[0] }} - {{ available_years[-1] }}
                 </div>
             </div>
 
-            <button type="submit" id="calculateBtn">
+            <button type="submit" id="calculateBtn" class="btn">
                 Calculate Worth Today
             </button>
         </form>
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="margin-top: 10px; color: #667eea; font-weight: 600;">Calculating...</p>
+            <p class="loading-text">Calculating inflation...</p>
         </div>
 
         <div class="error" id="error"></div>
 
         <div class="result" id="result">
-            <h2>💡 Your Result</h2>
-            <div class="result-item">
-                <div class="result-label">Original Value ({{ result_data.original_year if result_data else 'Year' }})</div>
+            <div class="result-header">
+                <div class="result-icon">💡</div>
+                <h2>Your Result</h2>
+            </div>
+
+            <div class="result-card">
+                <div class="result-label">Original Value</div>
                 <div class="result-value">$0.02 (2 cents)</div>
             </div>
-            <div class="result-item">
+
+            <div class="result-card">
                 <div class="result-label">Inflation-Adjusted Value Today</div>
                 <div class="result-value highlight" id="adjustedValue">-</div>
             </div>
-            <div class="result-item">
-                <div class="result-label">Increase</div>
+
+            <div class="result-card">
+                <div class="result-label">Percentage Increase</div>
                 <div class="result-value" id="percentageIncrease">-</div>
             </div>
-            <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px; font-style: italic; color: #555;">
-                <span id="resultMessage">-</span>
+
+            <div class="result-message">
+                <p class="result-message-text" id="resultMessage">-</p>
             </div>
         </div>
 
-        <div class="footer">
-            <p>Data source: U.S. Bureau of Labor Statistics Consumer Price Index (CPI)</p>
-            <p style="margin-top: 10px;">Base Period: 1982-84 = 100</p>
-        </div>
+        <footer class="footer">
+            <p>Data source: U.S. Bureau of Labor Statistics</p>
+            <p>Consumer Price Index (CPI) • Base: 1982-84 = 100</p>
+        </footer>
     </div>
 
     <script>
-        document.getElementById('inflationForm').addEventListener('submit', async (e) => {
+        const form = document.getElementById('inflationForm');
+        const yearInput = document.getElementById('year');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const resultDiv = document.getElementById('result');
+        const errorDiv = document.getElementById('error');
+        const loadingDiv = document.getElementById('loading');
+
+        // Add input validation for better UX
+        yearInput.addEventListener('input', (e) => {
+            const value = e.target.value;
+            if (value.length > 4) {
+                e.target.value = value.slice(0, 4);
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const year = document.getElementById('year').value;
-            const resultDiv = document.getElementById('result');
-            const errorDiv = document.getElementById('error');
-            const loadingDiv = document.getElementById('loading');
-            const calculateBtn = document.getElementById('calculateBtn');
+            const year = parseInt(yearInput.value);
 
             // Hide previous results/errors
             resultDiv.classList.remove('show');
             errorDiv.classList.remove('show');
 
-            // Show loading
+            // Show loading state
             loadingDiv.classList.add('show');
             calculateBtn.disabled = true;
+            calculateBtn.textContent = 'Calculating...';
 
             try {
                 const response = await fetch('/calculate', {
@@ -300,7 +645,7 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ year: parseInt(year) })
+                    body: JSON.stringify({ year })
                 });
 
                 const data = await response.json();
@@ -308,30 +653,45 @@
                 // Hide loading
                 loadingDiv.classList.remove('show');
                 calculateBtn.disabled = false;
+                calculateBtn.textContent = 'Calculate Worth Today';
 
                 if (response.ok) {
-                    // Update result display
+                    // Update result display with animation
                     document.getElementById('adjustedValue').textContent =
-                        `$${data.adjusted_value.toFixed(4)} (${data.adjusted_value_cents} cents)`;
+                        `$${data.adjusted_value.toFixed(4)} (${data.adjusted_value_cents}¢)`;
                     document.getElementById('percentageIncrease').textContent =
                         `${data.percentage_increase}% increase`;
                     document.getElementById('resultMessage').textContent = data.message;
 
-                    // Show result
-                    resultDiv.classList.add('show');
+                    // Show result with slight delay for better UX
+                    setTimeout(() => {
+                        resultDiv.classList.add('show');
+                        // Smooth scroll to result on mobile
+                        if (window.innerWidth < 640) {
+                            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }
+                    }, 100);
                 } else {
                     // Show error
-                    errorDiv.textContent = data.error || 'An error occurred';
+                    errorDiv.textContent = data.error || 'An error occurred. Please try again.';
                     errorDiv.classList.add('show');
                 }
             } catch (error) {
                 // Hide loading
                 loadingDiv.classList.remove('show');
                 calculateBtn.disabled = false;
+                calculateBtn.textContent = 'Calculate Worth Today';
 
                 // Show error
-                errorDiv.textContent = 'Failed to connect to the server. Please try again.';
+                errorDiv.textContent = 'Unable to connect to the server. Please check your connection and try again.';
                 errorDiv.classList.add('show');
+            }
+        });
+
+        // Add keyboard navigation support
+        yearInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                form.requestSubmit();
             }
         });
     </script>
