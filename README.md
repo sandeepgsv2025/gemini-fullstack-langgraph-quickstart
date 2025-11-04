@@ -16,10 +16,11 @@ This project demonstrates a fullstack application using a React frontend and a L
 
 ## Project Structure
 
-The project is divided into two main directories:
+The project is divided into multiple directories:
 
 -   `frontend/`: Contains the React application built with Vite.
 -   `backend/`: Contains the LangGraph/FastAPI application, including the research agent logic.
+-   `my2centa/`: A standalone Flask web application that calculates inflation-adjusted values (see below).
 
 ## Getting Started: Development and Local Testing
 
@@ -102,6 +103,29 @@ Open your browser and navigate to `http://localhost:8123/app/` to see the applic
 - [Shadcn UI](https://ui.shadcn.com/) - For components.
 - [LangGraph](https://github.com/langchain-ai/langgraph) - For building the backend research agent.
 - [Google Gemini](https://ai.google.dev/models/gemini) - LLM for query generation, reflection, and answer synthesis.
+
+## My2Centa - Inflation Calculator
+
+This repository also includes **My2Centa**, a fun standalone web application that calculates the inflation-adjusted value of "two cents" from any given year to the present day.
+
+### Features
+
+- Calculate what 2 cents from any year (1913-2025) is worth today
+- Uses real Consumer Price Index (CPI) data from the U.S. Bureau of Labor Statistics
+- Beautiful, responsive web interface
+- RESTful API for programmatic access
+
+### Quick Start
+
+```bash
+cd my2centa
+pip install -r requirements.txt
+python app.py
+```
+
+Then open `http://localhost:5000` in your browser.
+
+For detailed information, see the [My2Centa README](./my2centa/README.md).
 
 ## License
 
